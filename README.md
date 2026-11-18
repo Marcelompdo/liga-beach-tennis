@@ -62,7 +62,8 @@ Também são criadas três ligas de exemplo: **Copa Areia de Verão**, com 8 par
 - Site: `http://localhost:3000`
 - API de saúde: `http://localhost:3000/api/health`
 - Lista de ligas: `http://localhost:3000/api/leagues`
-- Especificação OpenAPI/Swagger em YAML: `http://localhost:3000/api-docs.yaml`
+- Interface interativa Swagger: `http://localhost:3000/api-docs`
+- Arquivo da especificação OpenAPI/Swagger em YAML: `http://localhost:3000/api-docs.yaml`
 
 ## Endpoints REST
 
@@ -73,4 +74,4 @@ Também são criadas três ligas de exemplo: **Copa Areia de Verão**, com 8 par
 - `POST /api/leagues/{id}/join` — entrar na liga (participante)
 - `POST /api/leagues/{id}/draw` — sortear grupos (organizador da liga)
 
-O contrato completo está em [`openapi.yaml`](./openapi.yaml) e também é servido por `/api-docs.yaml`.
+O contrato completo está em [`openapi.yaml`](./openapi.yaml), é servido por `/api-docs.yaml` e pode ser explorado na interface Swagger em `/api-docs`.

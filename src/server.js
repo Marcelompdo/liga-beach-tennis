@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 app.use(express.json());
@@ -44,6 +45,10 @@ function organizerOnly(req, res, next) {
 function publicUser(user) { return { id: user._id, name: user.name, email: user.email, role: user.role }; }
 
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {
+  swaggerOptions: { url: '/api-docs.yaml' },
+  customSiteTitle: 'Areia API — Swagger'
+}));
 app.get('/api-docs.yaml', (_req, res) => {
   res.type('application/yaml').send(fs.readFileSync(path.join(__dirname, '..', 'openapi.yaml'), 'utf8'));
 });
