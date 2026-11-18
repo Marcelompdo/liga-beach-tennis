@@ -24,14 +24,27 @@ A aplicação inicia em `http://localhost:3000`. Para desenvolvimento com reiní
 
 ## Dados de teste incluídos
 
-Quatro usuários são criados automaticamente quando o banco está vazio. A senha para todas as contas é `Beach2026!`.
+Quinze usuários de exemplo (3 organizadores e 12 participantes) são criados automaticamente. A senha para todas as contas é `Beach2026!`.
 
-| Perfil | Email |
-| --- | --- |
-| Organizador | `ana.organizadora@beachliga.com` |
-| Organizador | `bruno.organizador@beachliga.com` |
-| Participante | `carla.participante@beachliga.com` |
-| Participante | `diego.participante@beachliga.com` |
+| Perfil | Nome | Email |
+| --- | --- | --- |
+| Organizador | Ana Organiza | `ana.organizadora@beachliga.com` |
+| Organizador | Bruno Organiza | `bruno.organizador@beachliga.com` |
+| Organizador | Fernanda Prado | `fernanda.organizadora@beachliga.com` |
+| Participante | Carla Costa | `carla.participante@beachliga.com` |
+| Participante | Diego Silva | `diego.participante@beachliga.com` |
+| Participante | Elisa Martins | `elisa.participante@beachliga.com` |
+| Participante | Felipe Rocha | `felipe.participante@beachliga.com` |
+| Participante | Gabriela Lima | `gabriela.participante@beachliga.com` |
+| Participante | Henrique Alves | `henrique.participante@beachliga.com` |
+| Participante | Isabela Nunes | `isabela.participante@beachliga.com` |
+| Participante | João Pedro | `joao.participante@beachliga.com` |
+| Participante | Larissa Melo | `larissa.participante@beachliga.com` |
+| Participante | Marcos Vieira | `marcos.participante@beachliga.com` |
+| Participante | Nina Carvalho | `nina.participante@beachliga.com` |
+| Participante | Otávio Santos | `otavio.participante@beachliga.com` |
+
+Também são criadas três ligas de exemplo: **Copa Areia de Verão**, com 8 participantes inscritos, **Desafio das Dunas** e **Liga Pôr do Sol**, ambas abertas sem participantes.
 
 ## Regras de negócio
 

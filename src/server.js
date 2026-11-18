@@ -129,14 +129,55 @@ app.use((err, _req, res, _next) => {
 });
 
 async function seed() {
-  if (await User.countDocuments() > 0) return;
   const seedUsers = [
     ['Ana Organiza', 'ana.organizadora@beachliga.com', 'Beach2026!', 'organizador'],
     ['Bruno Organiza', 'bruno.organizador@beachliga.com', 'Beach2026!', 'organizador'],
     ['Carla Costa', 'carla.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Diego Silva', 'diego.participante@beachliga.com', 'Beach2026!', 'participante']
+    ['Diego Silva', 'diego.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Fernanda Prado', 'fernanda.organizadora@beachliga.com', 'Beach2026!', 'organizador'],
+    ['Elisa Martins', 'elisa.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Felipe Rocha', 'felipe.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Gabriela Lima', 'gabriela.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Henrique Alves', 'henrique.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Isabela Nunes', 'isabela.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['João Pedro', 'joao.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Larissa Melo', 'larissa.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Marcos Vieira', 'marcos.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Nina Carvalho', 'nina.participante@beachliga.com', 'Beach2026!', 'participante'],
+    ['Otávio Santos', 'otavio.participante@beachliga.com', 'Beach2026!', 'participante']
   ];
-  await User.insertMany(await Promise.all(seedUsers.map(async ([name, email, password, role]) => ({ name, email, password: await bcrypt.hash(password, 10), role }))));
+  await Promise.all(seedUsers.map(async ([name, email, password, role]) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.updateOne(
+      { email },
+      { $setOnInsert: { name, email, password: hashedPassword, role } },
+      { upsert: true }
+    );
+  }));
+
+  const sampleUsers = await User.find({ email: { $in: seedUsers.map(([, email]) => email) } });
+  const usersByEmail = new Map(sampleUsers.map(user => [user.email, user]));
+  const organizer = usersByEmail.get('ana.organizadora@beachliga.com');
+  const openingParticipants = [
+    'carla.participante@beachliga.com',
+    'diego.participante@beachliga.com',
+    'elisa.participante@beachliga.com',
+    'felipe.participante@beachliga.com',
+    'gabriela.participante@beachliga.com',
+    'henrique.participante@beachliga.com',
+    'isabela.participante@beachliga.com',
+    'joao.participante@beachliga.com'
+  ].map(email => usersByEmail.get(email)._id);
+  const sampleLeagues = [
+    { name: 'Copa Areia de Verão', participants: openingParticipants },
+    { name: 'Desafio das Dunas', participants: [] },
+    { name: 'Liga Pôr do Sol', participants: [] }
+  ];
+  await Promise.all(sampleLeagues.map(({ name, participants }) => League.updateOne(
+    { name },
+    { $setOnInsert: { name, organizer: organizer._id, participants, status: 'aguardando_participantes' } },
+    { upsert: true }
+  )));
 }
 
 async function start() {
