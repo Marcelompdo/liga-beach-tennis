@@ -74,7 +74,7 @@ app.post('/api/auth/login', async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
-app.get('/api/leagues', async (_req, res, next) => {
+app.get('/api/leagues', auth, async (_req, res, next) => {
   try {
     const leagues = await League.find().populate('organizer', 'name').populate('participants', 'name email').populate('groups', 'name email').sort({ createdAt: -1 });
     res.json(leagues);

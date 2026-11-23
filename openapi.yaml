@@ -49,8 +49,10 @@ paths:
   /api/leagues:
     get:
       summary: Listar ligas
+      security: [{ bearerAuth: [] }]
       responses:
         '200': { description: Lista de ligas }
+        '401': { description: Não autenticado }
     post:
       summary: Criar liga (organizador)
       security: [{ bearerAuth: [] }]
