@@ -24,7 +24,7 @@ A aplicação inicia em `http://localhost:3000`. Para desenvolvimento com reiní
 
 ## Dados de teste incluídos
 
-Quinze usuários de exemplo (3 organizadores e 12 participantes) são criados automaticamente. A senha para todas as contas é `Beach2026!`.
+Quinze usuários de exemplo (3 organizadores e 12 participantes) são criados automaticamente. A senha para todas as contas é `Beach2026`.
 
 | Perfil | Nome | Email |
 | --- | --- | --- |

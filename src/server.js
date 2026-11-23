@@ -136,21 +136,21 @@ app.use((err, _req, res, _next) => {
 
 async function seed() {
   const seedUsers = [
-    ['Ana Organiza', 'ana.organizadora@beachliga.com', 'Beach2026!', 'organizador'],
-    ['Bruno Organiza', 'bruno.organizador@beachliga.com', 'Beach2026!', 'organizador'],
-    ['Carla Costa', 'carla.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Diego Silva', 'diego.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Fernanda Prado', 'fernanda.organizadora@beachliga.com', 'Beach2026!', 'organizador'],
-    ['Elisa Martins', 'elisa.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Felipe Rocha', 'felipe.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Gabriela Lima', 'gabriela.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Henrique Alves', 'henrique.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Isabela Nunes', 'isabela.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['João Pedro', 'joao.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Larissa Melo', 'larissa.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Marcos Vieira', 'marcos.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Nina Carvalho', 'nina.participante@beachliga.com', 'Beach2026!', 'participante'],
-    ['Otávio Santos', 'otavio.participante@beachliga.com', 'Beach2026!', 'participante']
+    ['Ana Organiza', 'ana.organizadora@beachliga.com', 'Beach2026', 'organizador'],
+    ['Bruno Organiza', 'bruno.organizador@beachliga.com', 'Beach2026', 'organizador'],
+    ['Carla Costa', 'carla.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Diego Silva', 'diego.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Fernanda Prado', 'fernanda.organizadora@beachliga.com', 'Beach2026', 'organizador'],
+    ['Elisa Martins', 'elisa.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Felipe Rocha', 'felipe.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Gabriela Lima', 'gabriela.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Henrique Alves', 'henrique.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Isabela Nunes', 'isabela.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['João Pedro', 'joao.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Larissa Melo', 'larissa.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Marcos Vieira', 'marcos.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Nina Carvalho', 'nina.participante@beachliga.com', 'Beach2026', 'participante'],
+    ['Otávio Santos', 'otavio.participante@beachliga.com', 'Beach2026', 'participante']
   ];
   await Promise.all(seedUsers.map(async ([name, email, password, role]) => {
     const hashedPassword = await bcrypt.hash(password, 10);
