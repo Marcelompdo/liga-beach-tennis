@@ -77,6 +77,13 @@ let registerMode = false;
 function setAuthMode(value) { registerMode = value; $('#register-fields').classList.toggle('hidden', !value); $('#auth-title').innerHTML = value ? 'Criar conta<span>.</span>' : 'Entrar<span>.</span>'; $('#auth-eyebrow').textContent = value ? 'FAÇA PARTE DA COMUNIDADE' : 'BEM-VINDO DE VOLTA'; $('#auth-submit').textContent = value ? 'Criar conta' : 'Entrar'; $('#auth-switch').textContent = value ? 'Já tenho uma conta' : 'Criar uma conta'; $('#auth-form [name="password"]').autocomplete = value ? 'new-password' : 'current-password'; }
 const authSwitch = $('#auth-switch');
 if (authSwitch) authSwitch.onclick = () => setAuthMode(!registerMode);
+const registerButton = $('#register-button');
+if (registerButton) registerButton.onclick = () => {
+  setAuthMode(true);
+  $('#auth-error').textContent = '';
+  $('#auth-notice')?.classList.add('hidden');
+  $('#auth-dialog')?.showModal();
+};
 const authSubmit = $('#auth-submit');
 if (authSubmit) authSubmit.onclick = async () => {
   const form = $('#auth-form'); const data = Object.fromEntries(new FormData(form)); const error = $('#auth-error'); error.textContent = '';

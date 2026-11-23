@@ -1,2 +1,4 @@
 .auth-notice{margin:0 0 18px;padding:12px 14px;border-left:3px solid #92a93f;background:#eff3dc;color:#486034;font-size:13px;line-height:1.5}
 .auth-notice.hidden{display:none}
+.button-register{padding:9px 15px;border:1px solid #75877e;background:transparent;color:#fff}
+.button-register:hover{border-color:var(--lime);color:var(--lime)}
