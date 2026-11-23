@@ -4,6 +4,7 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#102d25"><title>Areia — Liga de Beach Tennis</title>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/access.css">
 </head>
 <body>
   <header class="topbar"><a class="brand" href="/"><span class="brand-mark">A</span> AREIA<span class="brand-sub">BEACH TENNIS</span></a><nav><a href="/ligas">Ligas</a><button id="auth-button" class="button button-light">Entrar</button></nav></header>
@@ -12,7 +13,7 @@
     <section class="manifesto"><p class="eyebrow">O ESPÍRITO DA AREIA</p><p>Mais que uma partida.<br><em>Uma comunidade.</em></p></section>
   </main>
   <footer><a class="brand footer-brand" href="/"><span class="brand-mark">A</span> AREIA</a><span>Feito para a próxima partida.</span><span>© 2026 AREIA CLUB</span></footer>
-  <dialog id="auth-dialog"><form method="dialog" id="auth-form"><button class="close" aria-label="Fechar">×</button><p class="eyebrow dark" id="auth-eyebrow">BEM-VINDO DE VOLTA</p><h2 id="auth-title">Entrar<span>.</span></h2><div id="register-fields" class="hidden"><label>Nome<input name="name" autocomplete="name"></label><label>Perfil<select name="role"><option value="participante">Participante</option><option value="organizador">Organizador</option></select></label></div><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="password" type="password" minlength="8" autocomplete="current-password" required></label><p id="auth-error" class="error"></p><button id="auth-submit" class="button button-dark full" type="button">Entrar</button><button id="auth-switch" class="text-button" type="button">Criar uma conta</button></form></dialog>
+  <dialog id="auth-dialog"><form method="dialog" id="auth-form"><button class="close" aria-label="Fechar">×</button><p id="auth-notice" class="auth-notice hidden" role="status"></p><p class="eyebrow dark" id="auth-eyebrow">BEM-VINDO DE VOLTA</p><h2 id="auth-title">Entrar<span>.</span></h2><div id="register-fields" class="hidden"><label>Nome<input name="name" autocomplete="name"></label><label>Perfil<select name="role"><option value="participante">Participante</option><option value="organizador">Organizador</option></select></label></div><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="password" type="password" minlength="8" autocomplete="current-password" required></label><p id="auth-error" class="error"></p><button id="auth-submit" class="button button-dark full" type="button">Entrar</button><button id="auth-switch" class="text-button" type="button">Criar uma conta</button></form></dialog>
   <div id="toast" role="status" class="toast"></div>
   <script src="/app.js"></script>
 </body></html>

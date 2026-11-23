@@ -52,6 +52,7 @@ Também são criadas três ligas de exemplo: **Copa Areia de Verão**, com 8 par
 - Qualquer pessoa pode se cadastrar; o email é único e a senha deve ter pelo menos 8 caracteres.
 - Apenas organizadores autenticados podem criar ligas.
 - Uma liga recém-criada fica em `aguardando_participantes`.
+- A página `/ligas` e a listagem `GET /api/leagues` exigem login; a API retorna `401` sem um token Bearer válido.
 - Apenas participantes autenticados podem entrar em ligas que aguardam participantes. Cada pessoa pode entrar uma vez.
 - O sorteio fica disponível a partir de 4 participantes e só o organizador daquela liga pode iniciá-lo.
 - O algoritmo embaralha os participantes, cria grupos de 4 sempre que possível e distribui o excedente com diferença máxima de 1 pessoa entre os grupos. Por exemplo, 10 participantes formam grupos de 4, 3 e 3.
@@ -70,7 +71,7 @@ Também são criadas três ligas de exemplo: **Copa Areia de Verão**, com 8 par
 
 - `POST /api/auth/register` — cadastro
 - `POST /api/auth/login` — login (retorna token Bearer)
-- `GET /api/leagues` — listar ligas
+- `GET /api/leagues` — listar ligas (requer token Bearer)
 - `POST /api/leagues` — criar liga (organizador)
 - `POST /api/leagues/{id}/join` — entrar na liga (participante)
 - `POST /api/leagues/{id}/draw` — sortear grupos (organizador da liga)

@@ -5,17 +5,18 @@
   <meta name="theme-color" content="#102d25"><title>Ligas — Areia Beach Tennis</title>
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/leagues.css">
+  <link rel="stylesheet" href="/access.css">
 </head>
-<body>
+<body data-page="leagues">
   <header class="topbar"><a class="brand" href="/"><span class="brand-mark">A</span> AREIA<span class="brand-sub">BEACH TENNIS</span></a><nav><a href="/">Início</a><a href="/ligas" aria-current="page">Ligas</a><button id="auth-button" class="button button-light">Entrar</button></nav></header>
-  <main class="league-page">
+  <main class="league-page" id="league-content" hidden>
     <section class="league-section" id="ligas">
       <div class="section-heading"><div><p class="eyebrow dark">NA AREIA AGORA</p><h1>Todas as ligas<span>.</span></h1><p class="page-intro">Veja as inscrições abertas e os grupos já sorteados.</p></div><button id="create-button" class="button button-dark hidden">＋ Criar liga</button></div>
       <div id="league-list" class="league-grid"><p class="loading">Carregando ligas...</p></div>
     </section>
   </main>
   <footer><a class="brand footer-brand" href="/"><span class="brand-mark">A</span> AREIA</a><span>Feito para a próxima partida.</span><span>© 2026 AREIA CLUB</span></footer>
-  <dialog id="auth-dialog"><form method="dialog" id="auth-form"><button class="close" aria-label="Fechar">×</button><p class="eyebrow dark" id="auth-eyebrow">BEM-VINDO DE VOLTA</p><h2 id="auth-title">Entrar<span>.</span></h2><div id="register-fields" class="hidden"><label>Nome<input name="name" autocomplete="name"></label><label>Perfil<select name="role"><option value="participante">Participante</option><option value="organizador">Organizador</option></select></label></div><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="password" type="password" minlength="8" autocomplete="current-password" required></label><p id="auth-error" class="error"></p><button id="auth-submit" class="button button-dark full" type="button">Entrar</button><button id="auth-switch" class="text-button" type="button">Criar uma conta</button></form></dialog>
+  <dialog id="auth-dialog"><form method="dialog" id="auth-form"><button class="close" aria-label="Fechar">×</button><p id="auth-notice" class="auth-notice hidden" role="status"></p><p class="eyebrow dark" id="auth-eyebrow">BEM-VINDO DE VOLTA</p><h2 id="auth-title">Entrar<span>.</span></h2><div id="register-fields" class="hidden"><label>Nome<input name="name" autocomplete="name"></label><label>Perfil<select name="role"><option value="participante">Participante</option><option value="organizador">Organizador</option></select></label></div><label>Email<input name="email" type="email" autocomplete="email" required></label><label>Senha<input name="password" type="password" minlength="8" autocomplete="current-password" required></label><p id="auth-error" class="error"></p><button id="auth-submit" class="button button-dark full" type="button">Entrar</button><button id="auth-switch" class="text-button" type="button">Criar uma conta</button></form></dialog>
   <dialog id="league-dialog"><form method="dialog" id="league-form"><button class="close" aria-label="Fechar">×</button><p class="eyebrow dark">DÊ O PRIMEIRO SAQUE</p><h2>Nova liga<span>.</span></h2><label>Nome da liga<input name="name" required maxlength="80" placeholder="Ex.: Copa do Sol"></label><p id="league-error" class="error"></p><button class="button button-dark full" type="button" id="league-submit">Criar liga</button></form></dialog>
   <div id="toast" role="status" class="toast"></div>
   <script src="/app.js"></script>

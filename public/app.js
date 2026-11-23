@@ -8,7 +8,11 @@ async function api(url, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers };
   const response = await fetch(url, { ...options, headers });
   const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(body.erro || 'Não foi possível completar a ação.');
+  if (!response.ok) {
+    const error = new Error(body.erro || 'Não foi possível completar a ação.');
+    error.status = response.status;
+    throw error;
+  }
   return body;
 }
 function toast(message) { const el = $('#toast'); el.textContent = message; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2800); }
@@ -23,6 +27,7 @@ async function loadLeagues() {
   if (!host) return;
   try {
     const leagues = await api('/api/leagues');
+    $('#league-content')?.removeAttribute('hidden');
     if (!leagues.length) { host.innerHTML = '<div class="empty">Ainda não há ligas por aqui. Seja a primeira pessoa a organizar uma.</div>'; return; }
     host.innerHTML = leagues.map(league => {
       const joined = league.participants.some(p => p._id === user?.id);
@@ -34,11 +39,38 @@ async function loadLeagues() {
     }).join('');
     host.querySelectorAll('.join').forEach(button => button.onclick = async () => { try { await api(`/api/leagues/${button.dataset.id}/join`, { method: 'POST' }); toast('Você entrou na liga!'); loadLeagues(); } catch (err) { toast(err.message); } });
     host.querySelectorAll('.draw').forEach(button => button.onclick = async () => { try { await api(`/api/leagues/${button.dataset.id}/draw`, { method: 'POST' }); toast('Grupos sorteados com sucesso!'); loadLeagues(); } catch (err) { toast(err.message); } });
-  } catch (err) { host.innerHTML = `<div class="empty">${esc(err.message)}</div>`; }
+  } catch (err) {
+    if (err.status === 401) {
+      token = null; user = null;
+      localStorage.removeItem(tokenKey); localStorage.removeItem(userKey);
+      refreshAuth();
+      if ($('#league-content')) {
+        $('#league-content').setAttribute('hidden', '');
+        requireLogin();
+        return;
+      }
+    }
+    host.innerHTML = `<div class="empty">${esc(err.message)}</div>`;
+  }
+}
+function requireLogin() {
+  const notice = $('#auth-notice');
+  if (notice) {
+    notice.textContent = 'Crie uma conta ou entre para ter acesso';
+    notice.classList.remove('hidden');
+  }
+  $('#auth-dialog')?.showModal();
 }
 const authButton = $('#auth-button');
 if (authButton) authButton.onclick = () => {
-  if (user) { token = null; user = null; localStorage.removeItem(tokenKey); localStorage.removeItem(userKey); refreshAuth(); loadLeagues(); toast('Você saiu da sua conta.'); return; }
+  if (user) {
+    token = null;
+    user = null;
+    localStorage.removeItem(tokenKey);
+    localStorage.removeItem(userKey);
+    window.location.assign('/');
+    return;
+  }
   $('#auth-dialog')?.showModal();
 };
 let registerMode = false;
@@ -52,7 +84,15 @@ if (authSubmit) authSubmit.onclick = async () => {
     if (registerMode) await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ name: data.name, email: data.email, password: data.password, role: data.role }) });
     const result = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ email: data.email, password: data.password }) });
     token = result.token; user = result.usuario; localStorage.setItem(tokenKey, token); localStorage.setItem(userKey, JSON.stringify(user));
-    $('#auth-dialog').close(); form.reset(); setAuthMode(false); refreshAuth(); loadLeagues(); toast(`Olá, ${user.name}!`);
+    $('#auth-notice')?.classList.add('hidden');
+    $('#auth-dialog').close(); form.reset(); setAuthMode(false); refreshAuth();
+    const destination = sessionStorage.getItem('areia-after-login');
+    if (destination) {
+      sessionStorage.removeItem('areia-after-login');
+      window.location.assign(destination);
+      return;
+    }
+    loadLeagues(); toast(`Olá, ${user.name}!`);
   } catch (err) { error.textContent = err.message; }
 };
 const createButton = $('#create-button');
@@ -60,4 +100,17 @@ if (createButton) createButton.onclick = () => $('#league-dialog')?.showModal();
 const leagueSubmit = $('#league-submit');
 if (leagueSubmit) leagueSubmit.onclick = async () => { const name = new FormData($('#league-form')).get('name'); try { await api('/api/leagues', { method: 'POST', body: JSON.stringify({ name }) }); $('#league-dialog').close(); $('#league-form').reset(); loadLeagues(); toast('Liga criada! Agora é só reunir os participantes.'); } catch (err) { $('#league-error').textContent = err.message; } };
 for (const dialog of document.querySelectorAll('dialog')) dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
-refreshAuth(); loadLeagues();
+document.querySelectorAll('a[href="/ligas"]').forEach(link => link.addEventListener('click', event => {
+  if (token && user) return;
+  event.preventDefault();
+  sessionStorage.setItem('areia-after-login', '/ligas');
+  requireLogin();
+}));
+refreshAuth();
+if ($('#league-content')) {
+  if (token && user) loadLeagues();
+  else {
+    sessionStorage.setItem('areia-after-login', '/ligas');
+    requireLogin();
+  }
+}
