@@ -63,7 +63,14 @@ function requireLogin() {
 }
 const authButton = $('#auth-button');
 if (authButton) authButton.onclick = () => {
-  if (user) { token = null; user = null; localStorage.removeItem(tokenKey); localStorage.removeItem(userKey); refreshAuth(); loadLeagues(); toast('Você saiu da sua conta.'); return; }
+  if (user) {
+    token = null;
+    user = null;
+    localStorage.removeItem(tokenKey);
+    localStorage.removeItem(userKey);
+    window.location.assign('/');
+    return;
+  }
   $('#auth-dialog')?.showModal();
 };
 let registerMode = false;
