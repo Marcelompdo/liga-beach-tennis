@@ -1,0 +1,8 @@
+.league-page{min-height:calc(100vh - 127px);background:var(--cream)}
+.league-page .league-section{padding-top:72px}
+.league-page .section-heading{gap:24px;align-items:end}
+.league-page .section-heading h1{font-size:clamp(36px,5vw,52px);letter-spacing:-.045em;font-weight:500;margin:0}
+.league-page .section-heading h1 span{color:#92a93f}
+.page-intro{margin:13px 0 0;color:var(--muted);font-size:14px;max-width:440px}
+.topbar nav a[aria-current="page"]{color:var(--lime)}
+@media(max-width:760px){.league-page .section-heading{align-items:flex-start;flex-direction:column}.league-page .section-heading h1{font-size:36px}}

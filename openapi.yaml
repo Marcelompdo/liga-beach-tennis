@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Areia — API de Ligas de Beach Tennis
+  version: 1.0.0
+  description: API REST para cadastro, autenticação, criação de ligas, inscrições e sorteio equilibrado de grupos.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/health:
+    get:
+      summary: Verificar disponibilidade da API
+      responses:
+        '200': { description: API disponível }
+  /api/auth/register:
+    post:
+      summary: Cadastrar usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password, role]
+              properties:
+                name: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, minLength: 8 }
+                role: { type: string, enum: [organizador, participante] }
+      responses:
+        '201': { description: Usuário criado }
+        '400': { description: Dados inválidos }
+        '409': { description: Email já cadastrado }
+  /api/auth/login:
+    post:
+      summary: Fazer login e receber token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email: { type: string, format: email }
+                password: { type: string }
+      responses:
+        '200': { description: Login realizado }
+        '401': { description: Credenciais inválidas }
+  /api/leagues:
+    get:
+      summary: Listar ligas
+      responses:
+        '200': { description: Lista de ligas }
+    post:
+      summary: Criar liga (organizador)
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+      responses:
+        '201': { description: Liga criada na etapa aguardando participantes }
+        '401': { description: Não autenticado }
+        '403': { description: Perfil não autorizado }
+  /api/leagues/{id}/join:
+    post:
+      summary: Entrar em uma liga (participante)
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Inscrição realizada }
+        '403': { description: Perfil não autorizado }
+        '404': { description: Liga não encontrada }
+        '409': { description: Inscrição duplicada ou encerrada }
+  /api/leagues/{id}/draw:
+    post:
+      summary: Sortear grupos de uma liga (organizador)
+      description: Requer no mínimo 4 participantes. Forma grupos de 4 sempre que possível e distribui os excedentes, mantendo diferença máxima de 1 integrante entre grupos.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: Grupos sorteados }
+        '400': { description: Menos de 4 participantes }
+        '401': { description: Não autenticado }
+        '403': { description: Perfil ou liga não autorizado }
+        '404': { description: Liga não encontrada }
+        '409': { description: Grupos já sorteados }
+  /api-docs.yaml:
+    get:
+      summary: Obter este contrato OpenAPI em YAML
+      responses:
+        '200': { description: Documento OpenAPI YAML }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
