@@ -52,6 +52,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, {
 app.get('/api-docs.yaml', (_req, res) => {
   res.type('application/yaml').send(fs.readFileSync(path.join(__dirname, '..', 'openapi.yaml'), 'utf8'));
 });
+app.get('/ligas', (_req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'leagues.html')));
 
 app.post('/api/auth/register', async (req, res, next) => {
   try {

@@ -13,11 +13,14 @@ async function api(url, options = {}) {
 }
 function toast(message) { const el = $('#toast'); el.textContent = message; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2800); }
 function refreshAuth() {
-  $('#auth-button').textContent = user ? 'Sair' : 'Entrar';
-  $('#create-button').classList.toggle('hidden', user?.role !== 'organizador');
+  const authButton = $('#auth-button');
+  if (authButton) authButton.textContent = user ? 'Sair' : 'Entrar';
+  const createButton = $('#create-button');
+  if (createButton) createButton.classList.toggle('hidden', user?.role !== 'organizador');
 }
 async function loadLeagues() {
   const host = $('#league-list');
+  if (!host) return;
   try {
     const leagues = await api('/api/leagues');
     if (!leagues.length) { host.innerHTML = '<div class="empty">Ainda não há ligas por aqui. Seja a primeira pessoa a organizar uma.</div>'; return; }
@@ -33,14 +36,17 @@ async function loadLeagues() {
     host.querySelectorAll('.draw').forEach(button => button.onclick = async () => { try { await api(`/api/leagues/${button.dataset.id}/draw`, { method: 'POST' }); toast('Grupos sorteados com sucesso!'); loadLeagues(); } catch (err) { toast(err.message); } });
   } catch (err) { host.innerHTML = `<div class="empty">${esc(err.message)}</div>`; }
 }
-$('#auth-button').onclick = () => {
+const authButton = $('#auth-button');
+if (authButton) authButton.onclick = () => {
   if (user) { token = null; user = null; localStorage.removeItem(tokenKey); localStorage.removeItem(userKey); refreshAuth(); loadLeagues(); toast('Você saiu da sua conta.'); return; }
-  $('#auth-dialog').showModal();
+  $('#auth-dialog')?.showModal();
 };
 let registerMode = false;
 function setAuthMode(value) { registerMode = value; $('#register-fields').classList.toggle('hidden', !value); $('#auth-title').innerHTML = value ? 'Criar conta<span>.</span>' : 'Entrar<span>.</span>'; $('#auth-eyebrow').textContent = value ? 'FAÇA PARTE DA COMUNIDADE' : 'BEM-VINDO DE VOLTA'; $('#auth-submit').textContent = value ? 'Criar conta' : 'Entrar'; $('#auth-switch').textContent = value ? 'Já tenho uma conta' : 'Criar uma conta'; $('#auth-form [name="password"]').autocomplete = value ? 'new-password' : 'current-password'; }
-$('#auth-switch').onclick = () => setAuthMode(!registerMode);
-$('#auth-submit').onclick = async () => {
+const authSwitch = $('#auth-switch');
+if (authSwitch) authSwitch.onclick = () => setAuthMode(!registerMode);
+const authSubmit = $('#auth-submit');
+if (authSubmit) authSubmit.onclick = async () => {
   const form = $('#auth-form'); const data = Object.fromEntries(new FormData(form)); const error = $('#auth-error'); error.textContent = '';
   try {
     if (registerMode) await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ name: data.name, email: data.email, password: data.password, role: data.role }) });
@@ -49,7 +55,9 @@ $('#auth-submit').onclick = async () => {
     $('#auth-dialog').close(); form.reset(); setAuthMode(false); refreshAuth(); loadLeagues(); toast(`Olá, ${user.name}!`);
   } catch (err) { error.textContent = err.message; }
 };
-$('#create-button').onclick = () => $('#league-dialog').showModal();
-$('#league-submit').onclick = async () => { const name = new FormData($('#league-form')).get('name'); try { await api('/api/leagues', { method: 'POST', body: JSON.stringify({ name }) }); $('#league-dialog').close(); $('#league-form').reset(); loadLeagues(); toast('Liga criada! Agora é só reunir os participantes.'); } catch (err) { $('#league-error').textContent = err.message; } };
+const createButton = $('#create-button');
+if (createButton) createButton.onclick = () => $('#league-dialog')?.showModal();
+const leagueSubmit = $('#league-submit');
+if (leagueSubmit) leagueSubmit.onclick = async () => { const name = new FormData($('#league-form')).get('name'); try { await api('/api/leagues', { method: 'POST', body: JSON.stringify({ name }) }); $('#league-dialog').close(); $('#league-form').reset(); loadLeagues(); toast('Liga criada! Agora é só reunir os participantes.'); } catch (err) { $('#league-error').textContent = err.message; } };
 for (const dialog of document.querySelectorAll('dialog')) dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
 refreshAuth(); loadLeagues();

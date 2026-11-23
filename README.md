@@ -60,6 +60,7 @@ Também são criadas três ligas de exemplo: **Copa Areia de Verão**, com 8 par
 ## URLs importantes
 
 - Site: `http://localhost:3000`
+- Página de ligas: `http://localhost:3000/ligas`
 - API de saúde: `http://localhost:3000/api/health`
 - Lista de ligas: `http://localhost:3000/api/leagues`
 - Interface interativa Swagger: `http://localhost:3000/api-docs`
