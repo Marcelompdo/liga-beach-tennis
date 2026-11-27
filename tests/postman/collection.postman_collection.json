@@ -1,0 +1,732 @@
+{
+  "info": {
+    "_postman_id": "fc52a0ff-ef81-4308-aa2a-3bec8abf33ab",
+    "name": "Areia — API de Ligas de Beach Tennis",
+    "description": "API REST para cadastro, autenticação, criação de ligas, inscrições e sorteio equilibrado de grupos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "2593080"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "auth",
+          "item": [
+            {
+              "name": "register",
+              "item": [
+                {
+                  "name": "Cadastrar usuário organizador",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 201\", () => {\r\n  pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Deve retornar objeto usuário\", () => {\r\n  const response = pm.response.json();\r\n\r\n  pm.expect(response).to.have.property(\"usuario\");\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Jason Duval\",\n  \"email\": \"jason.duval@beachliga.com\",\n  \"password\": \"Beach2026\",\n  \"role\": \"organizador\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/register",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Cadastrar usuário participante",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 201\", () => {\r\n  pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Deve retornar objeto usuário\", () => {\r\n  const response = pm.response.json();\r\n\r\n  pm.expect(response).to.have.property(\"usuario\");\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Lucia Caminos\",\n  \"email\": \"lucia.caminos@beachliga.com\",\n  \"password\": \"Beach2026\",\n  \"role\": \"participante\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/register",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Dados Inválidos - e-mail em branco",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 400\", () => {\r\n  pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Deve retornar mesagem de erro de credenciais inválidas\", () => {\r\n  const response = pm.response.json();\r\n  \r\n  pm.expect(response).to.have.property(\"erro\");\r\n  pm.expect(response.erro).to.equal(\"Informe nome, email, senha e um perfil válido.\")\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Ana Duplicada\",\n  \"email\": \" \",\n  \"password\": \"Beach2026\",\n  \"role\": \"participante\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/register",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Dados Inválidos - e-mail Faltando",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 400\", () => {\r\n  pm.response.to.have.status(400);\r\n});\r\n\r\npm.test(\"Deve retornar mesagem de erro de credenciais inválidas\", () => {\r\n  const response = pm.response.json();\r\n  \r\n  pm.expect(response).to.have.property(\"erro\");\r\n  pm.expect(response.erro).to.equal(\"Informe nome, email, senha e um perfil válido.\")\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Lucia Caminos\",\n\n  \"password\": \"Beach2026\",\n  \"role\": \"participante\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/register",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Cadastrar usuário duplicado",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 409\", () => {\r\n  pm.response.to.have.status(409);\r\n});\r\n\r\npm.test(\"Deve retornar mesagem de erro de credenciais inválidas\", () => {\r\n  const response = pm.response.json();\r\n  \r\n  pm.expect(response).to.have.property(\"erro\");\r\n  pm.expect(response.erro).to.equal(\"Este email já está cadastrado.\")\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Ana Duplicada\",\n  \"email\": \"ana.organizadora@beachliga.com\",\n  \"password\": \"Beach2026\",\n  \"role\": \"participante\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/register",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "register"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "auth": {
+                "type": "noauth"
+              }
+            },
+            {
+              "name": "login",
+              "item": [
+                {
+                  "name": "Fazer login válido e receber token JWT",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 200\", () => {\r\n  pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Deve retornar token\", () => {\r\n  const response = pm.response.json();\r\n  pm.expect(response.token).to.exist;\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"ana.organizadora@beachliga.com\",\n  \"password\": \"Beach2026\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/login",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Fazer login - senha inválida",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar código de erro 401\", () => {\r\n  pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Deve retornar mesagem de erro de credenciais inválidas\", () => {\r\n  const response = pm.response.json();\r\n  \r\n  pm.expect(response).to.have.property(\"erro\");\r\n  pm.expect(response.erro).to.equal(\"Email ou senha inválidos.\")\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"ana.organizadora@beachliga.com\",\n  \"password\": \"123456\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/login",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Fazer login - e-mail inválido",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar código de erro 401\", () => {\r\n  pm.response.to.have.status(401);\r\n});\r\n\r\npm.test(\"Deve retornar mesagem de erro de credenciais inválidas\", () => {\r\n  const response = pm.response.json();\r\n  \r\n  pm.expect(response).to.have.property(\"erro\");\r\n  pm.expect(response.erro).to.equal(\"Email ou senha inválidos.\")\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"email\": \"naoemail@errado.net\",\n  \"password\": \"Beach2026\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/auth/login",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "auth": {
+                "type": "noauth"
+              }
+            }
+          ]
+        },
+        {
+          "name": "leagues",
+          "item": [
+            {
+              "name": "Organizador",
+              "item": [
+                {
+                  "name": "Criar liga",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 201\", () => {\r\n  pm.response.to.have.status(201);\r\n});"
+                        ]
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          ""
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Liga de Verão\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/leagues",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "leagues"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Criar liga - não autenticado",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 401\", () => {\r\n  pm.response.to.have.status(401);\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"Liga de Verão\"\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/leagues",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "leagues"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Listar ligas",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 200\", () => {\r\n  pm.response.to.have.status(200);\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/leagues",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "leagues"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Listar ligas - não autenticado",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 401\", () => {\r\n  pm.response.to.have.status(401);\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/leagues",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "leagues"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Sortear grupos de uma liga",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "const baseUrl = pm.collectionVariables.get(\"baseUrl\");\nconst token = pm.collectionVariables.get(\"bearerToken\");\n\nconst listarLigasRequest = {\n    url: `${baseUrl}/api/leagues`,\n    method: \"GET\",\n    header: {\n        \"Content-Type\": \"application/json\",\n        \"Authorization\": `Bearer ${token}`\n    }\n};\n\n// Promise-based call so the script waits for the response before the request is sent.\nconst response = await new Promise((resolve, reject) => {\n    pm.sendRequest(listarLigasRequest, (error, res) => {\n        if (error) {\n            return reject(new Error(`Falha ao listar ligas: ${error}`));\n        }\n        resolve(res);\n    });\n});\n\nif (response.code !== 200) {\n    throw new Error(`Falha ao listar ligas: status ${response.code}`);\n}\n\nconst ligas = response.json();\nconst ligaEncontrada = ligas.find(\n    liga => Array.isArray(liga.participants)\n        && liga.participants.length >= 4\n        && liga.status === \"aguardando_participantes\"\n);\n\nif (!ligaEncontrada) {\n    throw new Error(\"Nenhuma liga aguardando participantes com pelo menos 4 participantes.\");\n}\n\npm.collectionVariables.set(\"idLiga\", ligaEncontrada._id);"
+                        ]
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 200\", () => {\r\n  pm.response.to.have.status(200);\r\n});"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/leagues/{{idLiga}}/draw",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "leagues",
+                        "{{idLiga}}",
+                        "draw"
+                      ]
+                    },
+                    "description": "Requer no mínimo 4 participantes. Forma grupos de 4 sempre que possível e distribui os excedentes, mantendo diferença máxima de 1 integrante entre grupos."
+                  },
+                  "response": []
+                }
+              ],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const loginRequest = {\n    url: `${pm.collectionVariables.get(\"baseUrl\")}/api/auth/login`,\n    method: \"POST\",\n    header: {\n        \"Content-Type\": \"application/json\"\n    },\n    body: {\n        mode: \"raw\",\n        raw: JSON.stringify({\n            email: \"ana.organizadora@beachliga.com\",\n            password: \"Beach2026\"\n        })\n    }\n};\n\n// Promise-based call: the script only continues after the login response arrives,\n// so bearerToken is always refreshed before the request is sent.\nconst response = await new Promise((resolve, reject) => {\n    pm.sendRequest(loginRequest, (error, res) => {\n        if (error) {\n            return reject(new Error(`Falha ao chamar login: ${error}`));\n        }\n        resolve(res);\n    });\n});\n\nif (response.code !== 200) {\n    throw new Error(`Login do organizador falhou com status ${response.code}`);\n}\n\nconst body = response.json();\nif (typeof body.token !== \"string\" || body.token === \"\") {\n    throw new Error(\"A resposta de login deve conter token\");\n}\n\npm.variables.set(\"bearerToken\", body.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Participante",
+              "item": [
+                {
+                  "name": "Entrar em uma liga como participante",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "const baseUrl = pm.collectionVariables.get(\"baseUrl\");\r\nconst token = pm.collectionVariables.get(\"bearerToken\");\r\nconst idUsuario = pm.collectionVariables.get(\"idUsuario\");\r\n\r\nconst ListarLigasRequest = {\r\n    url: `${baseUrl}/api/leagues`,\r\n    method: \"GET\",\r\n    header: {\r\n        \"Content-Type\": \"application/json\",\r\n        \"Authorization\": `Bearer ${token}`\r\n    }\r\n};\r\n\r\nawait pm.sendRequest(ListarLigasRequest, (error, response) => {\r\n    if (error) {\r\n        throw new Error(`Falha ao listar ligas: ${error}`);\r\n    }\r\n\r\n    const ligas = response.json();\r\n    const ligaEncontrada = ligas.find(\r\n        liga => liga.status == \"aguardando_participantes\"\r\n            && !liga.participants.some(participante =>\r\n                participante._id === idUsuario\r\n            )\r\n    );\r\n\r\n    if (!ligaEncontrada) {\r\n        throw new Error(\"Nenhuma liga encontrada disponível para inscrever-se.\");\r\n    }\r\n\r\n    pm.collectionVariables.set(\"idLiga\", ligaEncontrada._id);\r\n});"
+                        ]
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "type": "text/javascript",
+                        "exec": [
+                          "pm.test(\"Deve retornar status 200\", () => pm.response.to.have.status(200));"
+                        ]
+                      }
+                    }
+                  ],
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/leagues/{{idLiga}}/join",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "leagues",
+                        "{{idLiga}}",
+                        "join"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "const loginRequest = {\r\n    url: `${pm.collectionVariables.get(\"baseUrl\")}/api/auth/login`,\r\n    method: \"POST\",\r\n    header: {\r\n        \"Content-Type\": \"application/json\"\r\n    },\r\n    body: {\r\n        mode: \"raw\",\r\n        raw: JSON.stringify({\r\n            email: \"carla.participante@beachliga.com\",\r\n            password: \"Beach2026\"\r\n        })\r\n    }\r\n};\r\n\r\nawait pm.sendRequest(loginRequest, (error, response) => {\r\n    if (error) {\r\n        throw new Error(`Falha ao chamar login: ${error}`);\r\n    }\r\n\r\n    const body = response.json();\r\n    pm.expect(body.token, \"A resposta deve conter token\").to.be.a(\"string\").and.not.empty;\r\n\r\n    pm.variables.set(\"bearerToken\", body.token);\r\n    pm.variables.set(\"idUsuario\", body.usuario.id);\r\n});"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "bearerToken",
+      "value": ""
+    },
+    {
+      "key": "idLiga",
+      "value": ""
+    },
+    {
+      "key": "idUsuario",
+      "value": ""
+    }
+  ]
+}
